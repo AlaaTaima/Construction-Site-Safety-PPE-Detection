@@ -293,7 +293,6 @@ were measured on the 82 held-out test images. The original repository also conta
 | Ours (YOLOv8s) | 50 | 0.892 | 0.733 | 0.778 | 0.493 |
 | Original `ppe-yolov8s (v1)` | 200 | 0.923 | 0.782 | 0.814 | 0.556 |
 | Original `ppe-yolo26s` | 200 | 0.940 | 0.765 | 0.822 | 0.574 |
-| **Ours (YOLOv8s)** | **200** | _fill in after retraining_ | _..._ | _..._ | _..._ |
 
 **Reading the numbers**
 
