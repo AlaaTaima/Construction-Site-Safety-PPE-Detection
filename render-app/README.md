@@ -23,8 +23,7 @@ The model is a **YOLOv8s** network fine-tuned with **Ultralytics / PyTorch**, ex
 9. [Project structure](#9-project-structure)
 10. [Run locally](#10-run-locally)
 11. [Deploy on Render](#11-deploy-on-render)
-12. [Limitations and ideas](#12-limitations-and-ideas)
-13. [Credits and licences](#13-credits-and-licences)
+
 
 ---
 
