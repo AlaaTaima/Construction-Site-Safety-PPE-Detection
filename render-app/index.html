@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حارس الموقع | كشف معدات السلامة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--n:#0B1F3A;--n2:#12305A;--n3:#1B4580;--t:#EAF0FA;--m:#9FB2CE;--y:#FFC400;--o:#FF7A00;--ok:#22C55E;--bad:#FF4D4F;--g:linear-gradient(135deg,#FFC400,#FF7A00);--ln:rgba(255,255,255,.13)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.7 Tajawal,sans-serif;color:var(--t);background:radial-gradient(1200px 600px at 80% -10%,#1B4580 0,transparent 60%),var(--n)}
+button,input{font:inherit;color:inherit}:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.w{max-width:1280px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--ln);background:rgba(11,31,58,.85);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+header .w{display:flex;align-items:center;gap:18px;padding-top:10px;padding-bottom:10px}
+.logo{font-weight:800;font-size:1.3rem;display:flex;gap:10px;align-items:center;margin-inline-end:auto}
+.logo i{width:34px;height:34px;border-radius:9px;background:var(--g);display:grid;place-items:center;color:var(--n);font-style:normal}
+nav a{color:var(--m);text-decoration:none;margin-inline-start:16px;font-weight:500}nav a:hover{color:var(--y)}
+.chip{font-size:.85rem;padding:3px 12px;border-radius:99px;background:var(--n2);border:1px solid var(--ln)}
+.chip.ok{border-color:var(--ok);color:#9DF0BC}.chip.bad{border-color:var(--bad);color:#FFB3B4}
+.hero{padding:34px 0 10px}.hero .w{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(1.9rem,4vw,3rem);line-height:1.25;margin:0 0 12px;font-weight:800}
+.hero h1 b{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--m);max-width:48ch}
+.btn{border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;background:var(--n2);border:1px solid var(--ln);display:inline-flex;gap:8px;align-items:center;text-decoration:none}
+.btn.p{background:var(--g);color:var(--n);border:0}.btn.d{background:var(--bad);border:0}.btn:disabled{opacity:.4}
+.scene{position:relative;height:390px;border-radius:20px;background:linear-gradient(160deg,var(--n2),#0A1A33);border:1px solid var(--ln);overflow:hidden;cursor:grab;touch-action:pan-y}
+.scene canvas{width:100%;height:100%;display:block}.scene .hint{position:absolute;top:10px;inset-inline-start:14px;font-size:.8rem;color:var(--m)}
+.scene .nf{position:absolute;inset:0;display:none;place-items:center;color:var(--m)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px}.tabs button{border-radius:99px;padding:5px 16px;background:var(--n2);border:1px solid var(--ln);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--g);color:var(--n);font-weight:700;border:0}
+#info{color:var(--m);min-height:3.4em;font-size:.95rem}
+.app{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(310px,1fr);gap:20px;padding:24px 0}
+.card{background:linear-gradient(180deg,var(--n2),#0E2647);border:1px solid var(--ln);border-radius:16px;padding:16px}
+.card h2{font-size:1.05rem;margin:0 0 10px;color:var(--y)}.stack{display:grid;gap:16px;align-content:start}
+.st{position:relative;background:#050E1C;border-radius:12px;overflow:hidden;min-height:260px}
+.st video,.st img{display:block;width:100%;max-height:75vh;object-fit:contain}
+.st canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.em{position:absolute;inset:0;display:none;flex-direction:column;gap:10px;align-items:center;justify-content:center;text-align:center;padding:20px;background:repeating-linear-gradient(135deg,rgba(255,196,0,.06) 0 20px,transparent 20px 40px),#07142A}
+.em p{color:var(--m);margin:0;max-width:40ch}
+body[data-m=cam][data-live="0"] #e1,body[data-m=img][data-has="0"] #e2{display:flex}
+body[data-m=cam] #pv,body[data-m=img] #vd,body[data-has="0"] #pv{display:none}
+body[data-m=cam] .oi,body[data-m=img] .oc{display:none}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.note{display:none;margin-top:10px;padding:8px 12px;border-radius:10px;background:rgba(255,77,79,.15);border:1px solid var(--bad)}.note.on{display:block}
+.stat{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;background:#17335F;border:2px solid var(--ln)}
+.stat.safe{border-color:var(--ok);background:rgba(34,197,94,.14)}.stat.alert{border-color:var(--bad);background:rgba(255,77,79,.16)}
+.stat strong{display:block;font-size:1.15rem}.stat span{color:var(--m);font-size:.9rem}.stat .ic{font-size:1.8rem}
+.gr{display:flex;gap:16px;align-items:center}
+.ring{--p:0;--c:var(--m);width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.12) 0);display:grid;place-items:center;flex:none}
+.ring b{width:84px;height:84px;border-radius:50%;background:#0E2647;display:grid;place-items:center;font-size:1.5rem}
+.cnt{display:grid;gap:2px}.cnt b{color:var(--y)}
+.why{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,196,0,.08);border:1px dashed rgba(255,196,0,.5);font-size:.92rem}
+.why code{color:var(--y);font-family:inherit;font-weight:700}
+.tiles{display:grid;gap:8px}.tile{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:#17335F;border:1px solid var(--ln)}
+.tile.ok{border-color:var(--ok)}.tile.bad{border-color:var(--bad);background:rgba(255,77,79,.14)}.tile.off{opacity:.5}
+.f{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--ln)}.f small{display:block;color:var(--m);line-height:1.4}
+.sw{position:relative;width:46px;height:26px;flex:none}.sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:2}
+.sw i{position:absolute;inset:0;border-radius:99px;background:#35527F;transition:.2s}.sw i:after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--g)}.sw input:checked+i:after{transform:translateX(-20px)}
+input[type=range]{width:100%;accent-color:var(--o)}
+.seg{display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--ln)}.seg button{border:0;background:transparent;padding:4px 12px;cursor:pointer}.seg button[aria-pressed=true]{background:var(--g);color:var(--n);font-weight:700}
+.lg{list-style:none;margin:0;padding:0;max-height:200px;overflow:auto;display:grid;gap:6px}.lg li{padding:8px 10px;border-radius:8px;background:rgba(255,77,79,.13);border-inline-start:4px solid var(--bad);display:flex;justify-content:space-between;font-size:.9rem}
+.lg li.e{background:#17335F;border-color:var(--m);color:var(--m)}
+.learn{padding:10px 0 50px}.learn h2{font-size:1.5rem}.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.mg .ring{width:84px;height:84px;margin-bottom:8px}.mg .ring b{width:62px;height:62px;font-size:1.05rem}.mg h3{margin:0 0 4px}.mg p{margin:0;color:var(--m);font-size:.92rem}
+@media(max-width:960px){.hero .w,.app{grid-template-columns:1fr}.scene{height:310px}nav{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head>
+<body data-m="cam" data-live="0" data-has="0">
+<header><div class="w"><div class="logo"><i>⛑</i>حارس الموقع</div><nav><a href="#app">الفحص المباشر</a><a href="#learn">شرح الأرقام</a></nav><span class="chip" id="chip">جارٍ فحص النموذج</span></div></header>
+
+<section class="hero"><div class="w">
+<div><h1>راقب <b>سلامة موقعك</b> بالذكاء الاصطناعي</h1>
+<p>يتعرف النظام على العمال ويتحقق من الخوذة والسترة والكمامة من الكاميرا أو من صورة، وينبّهك عند أي مخالفة.</p>
+<a class="btn p" href="#app">ابدأ الفحص ←</a>
+<div class="tabs" id="tabs"><button data-f="-1" aria-pressed="true">الكل</button><button data-f="1">الخوذة</button><button data-f="2">السترة</button><button data-f="0">الكاميرا</button></div>
+<div id="info"></div></div>
+<div class="scene" id="scene"><canvas id="c3"></canvas><div class="hint">اسحب لتدوير المجسمات</div><div class="nf" id="nf">المجسمات ثلاثية الأبعاد تحتاج WebGL واتصالاً بالإنترنت.</div></div>
+</div></section>
+
+<main class="w app" id="app">
+<section class="card"><div class="tabs" style="margin-top:0"><button id="tc" aria-pressed="true">📹 الكاميرا المباشرة</button><button id="ti" aria-pressed="false">🖼 رفع صورة</button></div>
+<div class="st" id="st"><video id="vd" playsinline muted></video><img id="pv" alt=""><canvas id="ov"></canvas>
+<div class="em" id="e1"><h3>شغّل الكاميرا لفحص الموقع</h3><p>يُرسل المتصفح لقطة كل فترة قصيرة، ويرسم الخادم نتيجة الكشف فوق الفيديو.</p><button class="btn p" id="b0">تشغيل الكاميرا</button></div>
+<div class="em" id="e2"><h3>اسحب صورة هنا</h3><p>أو اخترها من جهازك (JPG أو PNG).</p><button class="btn p" id="b1">اختيار صورة</button></div></div>
+<div class="note" id="nt" role="alert"></div>
+<div class="ctl"><button class="btn p oc" id="bs">تشغيل الكاميرا</button><button class="btn oc" id="bf">🔄 تبديل الكاميرا</button><button class="btn oi" id="bp">اختيار صورة</button><input type="file" id="fi" accept="image/*" hidden></div></section>
+
+<aside class="stack">
+<div class="stat" id="stat" aria-live="polite"><div class="ic" id="sic">⏳</div><div><strong id="st1">بانتظار الفحص</strong><span id="st2">شغّل الكاميرا أو ارفع صورة</span></div></div>
+<div class="card"><h2>نسبة الالتزام</h2><div class="gr"><div class="ring" id="rg"><b id="rt">--</b></div><div class="cnt"><div>العمال: <b id="cw">0</b></div><div>ملتزمون: <b id="co">0</b></div><div>مخالفون: <b id="cb">0</b></div></div></div>
+<div class="why" id="why">ما معنى الأرقام؟ ستظهر هنا المعادلة بالأرقام الحالية.</div></div>
+<div class="card"><h2>حالة المعدات</h2><div class="tiles" id="tl"></div></div>
+<div class="card"><h2>الإعدادات <small style="color:var(--m)">(تعمل فوراً)</small></h2>
+<div class="f"><span>الخوذة إلزامية</span><label class="sw"><input type="checkbox" id="r-hardhat"><i></i></label></div>
+<div class="f"><span>السترة إلزامية</span><label class="sw"><input type="checkbox" id="r-vest"><i></i></label></div>
+<div class="f"><span>الكمامة إلزامية</span><label class="sw"><input type="checkbox" id="r-mask"><i></i></label></div>
+<div class="f"><span>إظهار نسبة الثقة على المربعات<small>مثل: خوذة 92%</small></span><label class="sw"><input type="checkbox" id="s-lab"><i></i></label></div>
+<div class="f"><span>إظهار عناصر الموقع<small>مخاريط وآليات ومركبات</small></span><label class="sw"><input type="checkbox" id="s-site"><i></i></label></div>
+<div class="f"><span>تنبيه صوتي عند المخالفة</span><label class="sw"><input type="checkbox" id="s-snd"><i></i></label></div>
+<div class="f" style="display:block"><div style="display:flex;justify-content:space-between"><span>حساسية الكشف</span><b id="cv"></b></div><input type="range" id="cf" min="25" max="90"><small id="cx" style="color:var(--m)"></small></div>
+<div class="f oc"><span>سرعة الفحص<small id="sp"></small></span><div class="seg" id="sg"><button data-ms="300">سريع</button><button data-ms="700">متوازن</button><button data-ms="1500">موفّر</button></div></div></div>
+<div class="card"><h2>سجل المخالفات</h2><ul class="lg" id="lg"></ul><div class="ctl"><button class="btn" id="bc">مسح السجل</button></div></div>
+</aside></main>
+
+<section class="w learn" id="learn"><h2>فهم أرقام النموذج</h2><p style="color:var(--m)">نتائج نموذجك (50 epoch) على 82 صورة اختبار لم يرها أثناء التدريب.</p>
+<div class="mg" id="mg"></div></section>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),AR={Hardhat:'خوذة',Mask:'كمامة','Safety Vest':'سترة','NO-Hardhat':'بدون خوذة','NO-Mask':'بدون كمامة','NO-Safety Vest':'بدون سترة',Person:'عامل','Safety Cone':'مخروط',machinery:'آلية',vehicle:'مركبة'};
+const EQ={hardhat:['الخوذة','بدون خوذة'],vest:['السترة','بدون سترة'],mask:['الكمامة','بدون كمامة']},KEY={'NO-Hardhat':'hardhat','NO-Safety Vest':'vest','NO-Mask':'mask'};
+const METRICS=[['Precision',89,'من كل 100 كشف يقوم به النموذج، حوالي 89 صحيح. أي أن الإنذارات الكاذبة قليلة.'],['Recall',73,'من كل 100 شيء موجود فعلاً، يلتقط النموذج حوالي 73 ويفوّت الباقي.'],['mAP50',78,'الدقة العامة عند قبول تداخل 50% مع المربع الحقيقي.'],['mAP50-95',49,'نفس المقياس بمعايير أصرم لدقة حدود المربع، ولذلك قيمته أقل.']];
+let S={m:'cam',stream:null,run:false,face:'environment',ms:700,raw:null,file:null,log:[],last:{},ac:null,was:false,
+ cfg:{hardhat:true,vest:true,mask:false,lab:true,site:true,snd:false,cf:45}};
+try{Object.assign(S.cfg,JSON.parse(localStorage.getItem('cfg')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('cfg',JSON.stringify(S.cfg))}catch(e){}};
+const note=t=>{$('#nt').textContent=t||'';$('#nt').classList.toggle('on',!!t)};
+
+/* ---------- logic (runs in the browser so settings apply instantly) ---------- */
+function analyse(d,req){
+ const inb=(b,c)=>{const w=(b[2]-b[0])*.05,h=(b[3]-b[1])*.05;return c[0]>=b[0]-w&&c[0]<=b[2]+w&&c[1]>=b[1]-h&&c[1]<=b[3]+h},ar=b=>(b[2]-b[0])*(b[3]-b[1]);
+ const W=d.filter(x=>x.name==='Person').map(x=>({box:x.box,v:[]})),O=[];
+ for(const x of d){const k=KEY[x.name];if(!k||!req[k])continue;const c=[(x.box[0]+x.box[2])/2,(x.box[1]+x.box[3])/2];
+  const h=W.filter(w=>inb(w.box,c)).sort((a,b)=>ar(a.box)-ar(b.box))[0];
+  if(h){if(!h.v.includes(k))h.v.push(k);continue}
+  const o=O.find(o=>Math.abs((o.box[0]+o.box[2])/2-c[0])<Math.max(o.box[2]-o.box[0],x.box[2]-x.box[0])*1.2);
+  if(o){if(!o.v.includes(k))o.v.push(k);o.box=[Math.min(o.box[0],x.box[0]),Math.min(o.box[1],x.box[1]),Math.max(o.box[2],x.box[2]),Math.max(o.box[3],x.box[3])]}else O.push({box:x.box.slice(),v:[k]})}
+ const A=[...W,...O];A.forEach(w=>w.ok=!w.v.length);const n=A.length,bad=A.filter(w=>!w.ok).length;
+ const eq={};for(const k in EQ){const b=A.filter(w=>w.v.includes(k)).length;eq[k]={req:!!req[k],bad:b,ok:n-b}}
+ return{W:A,n,bad,ok:n-bad,rate:n?Math.round(100*(n-bad)/n):null,eq}}
+const vis=()=>S.raw?S.raw.detections.filter(d=>d.conf*100>=S.cfg.cf):[];
+
+/* ---------- drawing ---------- */
+function paint(c,W,H,raw,R){if(!raw)return;const sx=W/raw.width,sy=H/raw.height,u=Math.max(1,W/640);
+ c.direction='ltr';c.textAlign='left';c.textBaseline='middle';c.font=`700 ${13*u}px Tajawal,sans-serif`;
+ const lab=(t,x,y,col)=>{const w=c.measureText(t).width+12*u,h=21*u,ly=y-h<0?y:y-h,lx=Math.min(Math.max(0,x),W-w);c.fillStyle=col;c.fillRect(lx,ly,w,h);c.fillStyle='#fff';c.fillText(t,lx+6*u,ly+h/2)};
+ for(const d of vis()){if(d.name==='Person')continue;const site=['Safety Cone','machinery','vehicle'].includes(d.name);if(site&&!S.cfg.site)continue;
+  const col=d.name.startsWith('NO-')?'#FF4D4F':site?'#FF7A00':'#22C55E',[a,b,e,f]=d.box;c.strokeStyle=col;c.lineWidth=2*u;c.strokeRect(a*sx,b*sy,(e-a)*sx,(f-b)*sy);
+  lab(AR[d.name]+(S.cfg.lab?' '+Math.round(d.conf*100)+'%':''),a*sx,b*sy,col)}
+ for(const w of R.W){const[a,b,e,f]=w.box,col=w.ok?'#22C55E':'#FF4D4F';c.strokeStyle=col;c.lineWidth=4*u;c.setLineDash(w.ok?[]:[10*u,6*u]);c.strokeRect(a*sx,b*sy,(e-a)*sx,(f-b)*sy);c.setLineDash([]);
+  lab(w.ok?'عامل ملتزم':'مخالفة: '+w.v.map(k=>EQ[k][1]).join('، '),a*sx,b*sy,col)}}
+function draw(R){const o=$('#ov'),st=$('#st'),d=window.devicePixelRatio||1;o.width=st.clientWidth*d;o.height=st.clientHeight*d;const c=o.getContext('2d');c.clearRect(0,0,o.width,o.height);if(S.raw&&R)paint(c,o.width,o.height,S.raw,R)}
+
+/* ---------- panel ---------- */
+function render(){const R=analyse(vis(),S.cfg);draw(R);const has=!!S.raw,n=R.n;
+ $('#cw').textContent=n;$('#co').textContent=R.ok;$('#cb').textContent=R.bad;
+ const rg=$('#rg');rg.style.setProperty('--p',R.rate??0);rg.style.setProperty('--c',R.rate==null?'#9FB2CE':R.rate>=90?'#22C55E':R.rate>=60?'#FFC400':'#FF4D4F');$('#rt').textContent=R.rate==null?'--':R.rate+'%';
+ $('#why').innerHTML=`<b>نسبة الالتزام</b> = العمال الملتزمون ÷ كل العمال × 100<br>${n?`الآن: <code>${R.ok} ÷ ${n} × 100 = ${R.rate}%</code>`:'لا يوجد عمال في الإطار بعد.'}<br><small style="color:var(--m)">90% فأكثر آمن · من 60 إلى 89 تحذير · أقل من 60 خطر. النسبة على كل مربع (مثل 92%) هي ثقة النموذج، وتُخفى المربعات التي ثقتها أقل من ${S.cfg.cf}%.</small>`;
+ $('#tl').innerHTML=Object.keys(EQ).map(k=>{const e=R.eq[k],cl=!e.req?'off':!n?'':e.bad?'bad':'ok',tx=!e.req?'غير مطلوبة':!n?'--':e.bad?e.bad+' مخالف':'الجميع ملتزم';return`<div class="tile ${cl}"><span>${k=='hardhat'?'⛑':k=='vest'?'🦺':'😷'} ${EQ[k][0]}</span><b>${tx}</b></div>`}).join('');
+ const s=$('#stat');s.className='stat'+(!n?'':R.bad?' alert':' safe');
+ $('#sic').textContent=!has?'⏳':!n?'👀':R.bad?'⚠️':'✅';$('#st1').textContent=!has?'بانتظار الفحص':!n?'لا يوجد عمال في الإطار':R.bad?'تم رصد مخالفة':'الموقع آمن';
+ $('#st2').textContent=!has?'شغّل الكاميرا أو ارفع صورة':!n?'وجّه الكاميرا نحو منطقة العمل':R.bad?`${R.bad} من ${n} عمال بلا معدات السلامة`:`جميع العمال (${n}) ملتزمون`;
+ if(R.bad&&!S.was)beep();S.was=!!R.bad;if(R.bad)logv(R);return R}
+function logv(R){const t=Date.now();let ch=0;for(const k in EQ){const n=R.W.filter(w=>w.v.includes(k)).length;if(!n||t-(S.last[k]||0)<10000)continue;S.last[k]=t;S.log.unshift([new Date(),`${n} ${n==1?'عامل':'عمال'} ${EQ[k][1]}`]);ch=1}
+ if(ch){S.log.length=Math.min(S.log.length,40);rlog()}}
+function rlog(){$('#lg').innerHTML=S.log.length?S.log.map(([d,t])=>`<li><span>${t}</span><small>${d.toLocaleTimeString('ar-EG-u-nu-latn')}</small></li>`).join(''):'<li class="e">لا توجد مخالفات مسجلة.</li>'}
+function beep(){if(!S.cfg.snd)return;try{S.ac=S.ac||new(window.AudioContext||window.webkitAudioContext)();const o=S.ac.createOscillator(),g=S.ac.createGain();o.type='square';o.frequency.value=880;g.gain.value=.05;o.connect(g);g.connect(S.ac.destination);o.start();o.stop(S.ac.currentTime+.18)}catch(e){}}
+
+/* ---------- camera / image ---------- */
+const blob=(el,w,h,mx,q)=>{const k=Math.min(1,mx/Math.max(w,h)),c=document.createElement('canvas');c.width=w*k;c.height=h*k;c.getContext('2d').drawImage(el,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,'image/jpeg',q))};
+async function detect(b){const f=new FormData();f.append('image',b,'f.jpg');f.append('conf','0.25');f.append('required','hardhat,vest,mask');const j=await(await fetch('/api/detect',{method:'POST',body:f})).json();if(j.error)throw new Error(j.error);return j}
+async function start(){note();if(!navigator.mediaDevices){note('المتصفح لا يدعم الكاميرا أو الصفحة ليست HTTPS.');return}
+ try{S.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:S.face,width:{ideal:1280}},audio:false})}catch(e){note(e.name=='NotAllowedError'?'تم رفض إذن الكاميرا. اسمح بها من إعدادات المتصفح.':'تعذر تشغيل الكاميرا: '+e.message);return}
+ $('#vd').srcObject=S.stream;await $('#vd').play();S.run=true;document.body.dataset.live=1;$('#bs').textContent='إيقاف الكاميرا';$('#bs').classList.add('d');loop()}
+function stop(){S.run=false;if(S.stream)S.stream.getTracks().forEach(t=>t.stop());S.stream=null;document.body.dataset.live=0;$('#bs').textContent='تشغيل الكاميرا';$('#bs').classList.remove('d');S.raw=null;render()}
+async function loop(){while(S.run){const t=performance.now(),v=$('#vd');try{if(v.videoWidth){S.raw=await detect(await blob(v,v.videoWidth,v.videoHeight,640,.7));note();render()}}catch(e){note(e.message);await new Promise(r=>setTimeout(r,2000))}
+ await new Promise(r=>setTimeout(r,Math.max(0,S.ms-(performance.now()-t))))}}
+async function file(f){if(!f||!f.type.startsWith('image/')){note('اختر ملف صورة.');return}mode('img');S.file=f;const p=$('#pv');p.src=URL.createObjectURL(f);await p.decode();document.body.dataset.has=1;
+ try{S.raw=await detect(await blob(p,p.naturalWidth,p.naturalHeight,1280,.85));render()}catch(e){note(e.message)}}
+function mode(m){if(S.run)stop();S.m=m;document.body.dataset.m=m;$('#tc').setAttribute('aria-pressed',m=='cam');$('#ti').setAttribute('aria-pressed',m=='img');S.raw=null;document.body.dataset.has=0;note();render()}
+
+/* ---------- settings wiring ---------- */
+const sync=()=>{for(const k of['hardhat','vest','mask'])$('#r-'+k).checked=S.cfg[k];$('#s-lab').checked=S.cfg.lab;$('#s-site').checked=S.cfg.site;$('#s-snd').checked=S.cfg.snd;$('#cf').value=S.cfg.cf;$('#cv').textContent=S.cfg.cf+'%';
+ $('#cx').textContent=`تُعرض فقط الكشوف التي ثقتها ${S.cfg.cf}% أو أكثر. قيمة أقل تكشف أكثر وقد تخطئ أكثر.`;$('#sp').textContent=`فحص كل ${S.ms/1000} ثانية تقريباً`;document.querySelectorAll('#sg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.ms==S.ms))};
+for(const k of['hardhat','vest','mask'])$('#r-'+k).onchange=e=>{S.cfg[k]=e.target.checked;save();sync();render()};
+$('#s-lab').onchange=e=>{S.cfg.lab=e.target.checked;save();render()};$('#s-site').onchange=e=>{S.cfg.site=e.target.checked;save();render()};
+$('#s-snd').onchange=e=>{S.cfg.snd=e.target.checked;save();beep()};$('#cf').oninput=e=>{S.cfg.cf=+e.target.value;save();sync();render()};
+$('#sg').onclick=e=>{const b=e.target.closest('button');if(b){S.ms=+b.dataset.ms;sync()}};
+$('#bs').onclick=$('#b0').onclick=()=>S.run?stop():start();$('#bf').onclick=async()=>{S.face=S.face=='environment'?'user':'environment';if(S.run){stop();await start()}};
+$('#bp').onclick=$('#b1').onclick=()=>$('#fi').click();$('#fi').onchange=e=>{file(e.target.files[0]);e.target.value=''};
+$('#tc').onclick=()=>mode('cam');$('#ti').onclick=()=>mode('img');$('#bc').onclick=()=>{S.log=[];S.last={};rlog()};
+['dragover','drop'].forEach(v=>$('#st').addEventListener(v,e=>{e.preventDefault();if(v=='drop')file(e.dataTransfer.files[0])}));
+addEventListener('resize',()=>render());
+fetch('/health').then(r=>r.json()).then(j=>{const c=$('#chip');c.className='chip '+(j.model_ready?'ok':'bad');c.textContent=j.model_ready?'النموذج جاهز':'النموذج غير موجود'}).catch(()=>{$('#chip').className='chip bad';$('#chip').textContent='الخادم غير متاح'});
+$('#mg').innerHTML=METRICS.map(([n,v,t])=>`<div class="card"><div class="ring" style="--p:${v};--c:#FFC400"><b>${v}%</b></div><h3>${n}</h3><p>${t}</p></div>`).join('');
+sync();rlog();render();
+
+/* ---------- 3D hero (three.js, built from primitives) ---------- */
+function hero(){if(!window.THREE){$('#nf').style.display='grid';return}
+ const T=THREE,mat=(c,r,m,e)=>new T.MeshStandardMaterial({color:c,roughness:r,metalness:m||0,emissive:e||0,side:T.DoubleSide}),Y=mat(0xFFC400,.35,.1),O=mat(0xFF7A00,.5),N=mat(0x12305A,.4,.3);
+ function helmet(){const g=new T.Group(),d=new T.Mesh(new T.SphereGeometry(1,48,24,0,6.2832,0,1.5708),Y);d.scale.y=.9;g.add(d);
+  g.add(new T.Mesh(new T.CylinderGeometry(1.12,1.12,.08,48),Y));g.add(new T.Mesh(new T.CylinderGeometry(1.4,1.4,.07,32,1,false,-1.5708,3.1416),Y));
+  for(const x of[0,.38,-.38]){const r=new T.Mesh(new T.TorusGeometry(Math.sqrt(1-x*x)*1.01,.05,10,40,3.1416),O);r.scale.y=.9;r.rotation.y=1.5708;r.position.x=x;g.add(r)}g.position.y=-.4;const w=new T.Group();w.add(g);return w}
+ function vest(){const g=new T.Group(),s=new T.Shape();s.moveTo(-.45,1.5);s.lineTo(-.95,1.5);s.lineTo(-1.1,.95);s.quadraticCurveTo(-.8,.55,-1.05,.2);s.lineTo(-1.05,-1.5);s.lineTo(1.05,-1.5);s.lineTo(1.05,.2);s.quadraticCurveTo(.8,.55,1.1,.95);s.lineTo(.95,1.5);s.lineTo(.45,1.5);s.lineTo(0,.7);s.lineTo(-.45,1.5);
+  const ge=new T.ExtrudeGeometry(s,{depth:.3,bevelEnabled:true,bevelSize:.04,bevelThickness:.04,bevelSegments:2});ge.translate(0,0,-.15);g.add(new T.Mesh(ge,O));
+  const R=mat(0xE6ECF5,.25,.6,0x222a36),b=(w,h,x,y)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,.02),R);m.position.set(x,y,.2);g.add(m)};b(2.1,.22,0,-.35);b(2.1,.22,0,-1);b(.18,1.65,.72,.62);b(.18,1.65,-.72,.62);
+  const z=new T.Mesh(new T.BoxGeometry(.05,2.2,.02),N);z.position.set(0,-.4,.2);g.add(z);g.scale.setScalar(.95);return g}
+ function cam(){const g=new T.Group(),X=(m,x,y,z)=>{m.rotation.z=1.5708;m.position.set(x,y,z);g.add(m)};
+  X(new T.Mesh(new T.CylinderGeometry(.5,.5,1.8,32),N),0,0,0);X(new T.Mesh(new T.CylinderGeometry(.58,.58,.25,32),Y),1,0,0);X(new T.Mesh(new T.CylinderGeometry(.38,.38,.06,32),mat(0x0A2A55,.1,.5,0x2F8CFF)),1.14,0,0);
+  const sh=new T.Mesh(new T.BoxGeometry(1.9,.06,1.05),Y);sh.position.y=.55;g.add(sh);const p=new T.Mesh(new T.CylinderGeometry(.08,.08,.8),N);p.position.set(-.3,-.7,0);g.add(p);
+  const b=new T.Mesh(new T.BoxGeometry(1,.1,1),N);b.position.set(-.3,-1.1,0);g.add(b);const l=new T.Mesh(new T.SphereGeometry(.07),mat(0xFF0000,.3,0,0xFF2222));l.position.set(.2,.5,.3);g.add(l);g.position.y=.3;g.rotation.y=-.6;return g}
+ const cv=$('#c3'),sc=new T.Scene(),ca=new T.PerspectiveCamera(35,1,.1,100),rd=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:true});ca.position.set(0,.6,11);
+ sc.add(new T.AmbientLight(0xffffff,.75));const d1=new T.DirectionalLight(0xffffff,1.1);d1.position.set(3,5,6);sc.add(d1);const d2=new T.DirectionalLight(0x4f8cff,.9);d2.position.set(-5,2,-3);sc.add(d2);
+ const items=[cam(),helmet(),vest()],grp=new T.Group();items.forEach(i=>grp.add(i));sc.add(grp);
+ const INFO=['كاميرا المراقبة: تلتقط صورة الموقع، ويحلّلها النموذج لحظة بلحظة.','الخوذة: كلاس Hardhat عند وجودها، وNO-Hardhat عند غيابها. وقد حقق Hardhat أعلى دقة (mAP50 94%).','السترة العاكسة: كلاس Safety Vest عند ارتدائها، وNO-Safety Vest عند غيابها.'],ALL='ثلاثة عناصر أساسية في النظام: الكاميرا ترى، والنموذج يقرر، والخوذة والسترة هما ما نتحقق منه. اختر عنصراً لتكبيره.';
+ let f=-1,ry=0,drag=0,px=0;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;$('#info').textContent=ALL;
+ $('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;f=+b.dataset.f;document.querySelectorAll('#tabs button').forEach(x=>x.setAttribute('aria-pressed',x==b));$('#info').textContent=f<0?ALL:INFO[f]};
+ cv.onpointerdown=e=>{drag=1;px=e.clientX;cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>drag=0;cv.onpointermove=e=>{if(drag){ry+=(e.clientX-px)*.012;px=e.clientX}};
+ new ResizeObserver(()=>{const r=cv.parentElement.getBoundingClientRect();rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.setSize(r.width,r.height,false);ca.aspect=r.width/r.height;ca.updateProjectionMatrix()}).observe(cv.parentElement);
+ (function a(t){requestAnimationFrame(a);t/=1000;if(!drag&&!rm)ry+=.007;items.forEach((m,i)=>{const tx=f<0?(i-1)*3.3:(i-f)*4,ts=f<0?1:i==f?1.3:.55;m.position.x+=(tx-m.position.x)*.08;const s=m.scale.x+(ts-m.scale.x)*.08;m.scale.setScalar(s);m.rotation.y=ry+i;m.position.y=Math.sin(t*1.2+i)*.12});rd.render(sc,ca)})(0)}
+try{hero()}catch(e){$('#nf').style.display='grid'}
+</script></body></html>
